@@ -55,5 +55,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: debt-pal-arabic-v1-apk
+          name: debt-pal-arabic-v1-fix4-sounds-apk
           path: build/app/outputs/flutter-apk/app-release.apk
