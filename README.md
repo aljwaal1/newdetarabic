@@ -11,9 +11,9 @@
 - استخدام Flutter 3.24.5 بدل آخر stable لتجنب تعارضات Gradle/SDK.
 - استخدام إصدار AdMob أقدم وأكثر توافقًا.
 - الرجوع إلى minSdk 21.
-- تحديث رقم النسخة إلى `1.0.14+15`.
+- تحديث رقم النسخة إلى `1.0.15+16`.
 - تحديث اسم Artifact في GitHub Actions إلى:
-  `debt-pal-arabic-v1-fix14-real-admob-compat-apk`
+  `debt-pal-arabic-v1-fix15-real-admob-diagnostic-apk`
 
 ## ملاحظة مهمة
 
@@ -27,4 +27,4 @@
 
 سيتم إنشاء APK داخل Artifact باسم:
 
-`debt-pal-arabic-v1-fix14-real-admob-compat-apk`
+`debt-pal-arabic-v1-fix15-real-admob-diagnostic-apk`

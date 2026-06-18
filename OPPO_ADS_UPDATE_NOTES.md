@@ -2,7 +2,7 @@
 
 ## Version
 
-1.0.14+15
+1.0.15+16
 
 ## Store declaration
 
