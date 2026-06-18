@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 const darkBg = Color(0xFF20242B);
 const darkPanel = Color(0xFF2B3038);
@@ -23,6 +24,7 @@ const divider = Color(0xFF3D444E);
 String money(double v) => v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(2);
 String dateOnly(int ms){ final d=DateTime.fromMillisecondsSinceEpoch(ms); String t(int n)=>n.toString().padLeft(2,'0'); return '${d.year}/${t(d.month)}/${t(d.day)}'; }
 String ago(int ms){ final diff=DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(ms)); if(diff.inMinutes<1)return 'الآن'; if(diff.inMinutes<60)return 'منذ ${diff.inMinutes} دقيقة'; if(diff.inHours<24)return 'منذ ${diff.inHours} ساعة'; if(diff.inDays<30)return 'منذ ${diff.inDays} يوم'; return dateOnly(ms); }
+const admobBannerUnitId = 'ca-app-pub-3082968903080396/5444216173';
 
 Future<void> appFeedback(String fileName) async {
   if (!Store.I.sounds) return;
@@ -46,7 +48,8 @@ void main() async { WidgetsFlutterBinding.ensureInitialized(); await Store.I.loa
 
 class DebtApp extends StatelessWidget{ const DebtApp({super.key}); @override Widget build(BuildContext context)=>MaterialApp(debugShowCheckedModeBanner:false,title:'دفتر الديون',theme:ThemeData(useMaterial3:true,scaffoldBackgroundColor:darkBg,colorScheme:ColorScheme.fromSeed(seedColor:orangeSoft,brightness:Brightness.dark)),home:const Directionality(textDirection:TextDirection.rtl,child:HomeScreen())); }
 
-class AdMobBanner extends StatelessWidget{ const AdMobBanner({super.key}); @override Widget build(BuildContext context)=>Container(height:52,width:double.infinity,alignment:Alignment.center,margin:const EdgeInsets.fromLTRB(14,8,14,8),decoration:BoxDecoration(color:darkPanel2,borderRadius:BorderRadius.circular(14),border:Border.all(color:divider)),child:const Text('مساحة إعلان تجريبية',style:TextStyle(color:textSoft,fontWeight:FontWeight.w800))); }
+class AdMobBanner extends StatefulWidget{ const AdMobBanner({super.key}); @override State<AdMobBanner> createState()=>_AdMobBannerState(); }
+class _AdMobBannerState extends State<AdMobBanner>{ BannerAd? ad; bool loaded=false; @override void initState(){ super.initState(); WidgetsBinding.instance.addPostFrameCallback((_)=>loadAd()); } Future<void> loadAd() async{ try{ await MobileAds.instance.initialize(); final banner=BannerAd(adUnitId:admobBannerUnitId,size:AdSize.banner,request:const AdRequest(),listener:BannerAdListener(onAdLoaded:(_){if(mounted)setState(()=>loaded=true);},onAdFailedToLoad:(failedAd,error){failedAd.dispose(); if(mounted)setState(()=>loaded=false);})); ad=banner; await banner.load(); }catch(_){ ad?.dispose(); ad=null; if(mounted)setState(()=>loaded=false); } } @override void dispose(){ ad?.dispose(); super.dispose(); } @override Widget build(BuildContext context){ if(!loaded||ad==null)return const SizedBox.shrink(); return Container(height:ad!.size.height.toDouble(),width:double.infinity,alignment:Alignment.center,margin:const EdgeInsets.fromLTRB(14,8,14,8),child:SizedBox(width:ad!.size.width.toDouble(),height:ad!.size.height.toDouble(),child:AdWidget(ad:ad!))); }}
 
 enum DebtType { lent, borrowed }
 

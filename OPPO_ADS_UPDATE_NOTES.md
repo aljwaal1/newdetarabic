@@ -2,29 +2,29 @@
 
 ## Version
 
-1.0.12+13
+1.0.13+14
 
 ## Store declaration
 
-- Contains ads: Preview only in this build
-- Ad format: Banner placeholder
-- Ad network: None in this build
-- Internet use: Not required for this preview build.
+- Contains ads: Yes
+- Ad format: Banner ad
+- Ad network: Google AdMob
+- Internet use: Required for loading ads only. The debt ledger features remain local/offline.
 
 ## Current build mode
 
-This build does not include the Google Mobile Ads SDK. It is intended only to preview the banner placement and confirm the app opens correctly.
+This build includes a real Google AdMob banner at the top of the main screens.
 
-Do not submit this exact preview APK as the final production monetized release.
+Declare ads in the store listing before submitting this build.
 
 ## English version description
 
-Moved the banner placeholder to the top of the main screens for visual preview. This build does not include the AdMob SDK.
+Added a real Google AdMob banner to the top of the main screens.
 
 ## Arabic version description
 
-تم نقل مساحة البنر الشكلية إلى أعلى الصفحات للمعاينة. هذه النسخة لا تحتوي على AdMob SDK.
+تمت إضافة إعلان بنر حقيقي من Google AdMob أعلى الصفحات الرئيسية.
 
 ## Privacy note
 
-When the real AdMob SDK is added later, the store listing and privacy policy should mention that Google AdMob may collect or process advertising-related data according to Google's advertising and privacy policies.
+The store listing and privacy policy should mention that Google AdMob may collect or process advertising-related data according to Google's advertising and privacy policies.
