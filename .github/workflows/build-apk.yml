@@ -22,23 +22,20 @@ jobs:
           channel: stable
       - name: Create Android project files
         run: flutter create --platforms android .
-      - name: Set minimum SDK to 23
+      - name: Set minimum SDK to 21
         run: |
           if [ -f android/app/build.gradle ]; then
-            sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 23/g' android/app/build.gradle
-            sed -i 's/minSdkVersion [0-9][0-9]*/minSdkVersion 23/g' android/app/build.gradle
+            sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' android/app/build.gradle
+            sed -i 's/minSdkVersion [0-9][0-9]*/minSdkVersion 21/g' android/app/build.gradle
           fi
           if [ -f android/app/build.gradle.kts ]; then
-            sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 23/g' android/app/build.gradle.kts
-            sed -i 's/minSdk = [0-9][0-9]*/minSdk = 23/g' android/app/build.gradle.kts
+            sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 21/g' android/app/build.gradle.kts
+            sed -i 's/minSdk = [0-9][0-9]*/minSdk = 21/g' android/app/build.gradle.kts
           fi
       - name: Write Android Manifest
         run: |
-          APP_ID="ca-app-pub-3940256099942544~3347511713"
           cat > android/app/src/main/AndroidManifest.xml <<EOF
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-              <uses-permission android:name="android.permission.INTERNET" />
-              <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
               <application android:label="دفتر الديون" android:name="\${applicationName}" android:icon="@mipmap/ic_launcher">
                   <activity android:name=".MainActivity" android:exported="true" android:launchMode="singleTop" android:taskAffinity="" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
                       <meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme" />
@@ -47,7 +44,6 @@ jobs:
                           <category android:name="android.intent.category.LAUNCHER"/>
                       </intent-filter>
                   </activity>
-                  <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="$APP_ID" />
                   <meta-data android:name="flutterEmbedding" android:value="2" />
               </application>
           </manifest>
@@ -55,11 +51,9 @@ jobs:
       - name: Get packages
         run: flutter pub get
       - name: Build release APK
-        run: |
-          BANNER_ID="ca-app-pub-3940256099942544/6300978111"
-          flutter build apk --release --dart-define=ADMOB_BANNER_UNIT_ID="$BANNER_ID"
+        run: flutter build apk --release
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: debt-pal-arabic-v1-fix10-safe-test-ads-apk
+          name: debt-pal-arabic-v1-fix11-ad-preview-no-sdk-apk
           path: build/app/outputs/flutter-apk/app-release.apk
