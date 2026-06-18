@@ -2,7 +2,7 @@
 
 ## Version
 
-1.0.7+8
+1.0.8+9
 
 ## Store declaration
 
@@ -11,22 +11,19 @@
 - Ad network: Google AdMob
 - Internet use: Required for loading ads only. The debt ledger features remain local/offline.
 
-## GitHub Secrets for production ads
+## Current build mode
 
-Add these repository secrets before building the production APK:
+This build uses Google's official test ad IDs only. It is intended for visual testing and device compatibility checks.
 
-- `ADMOB_APP_ID`
-- `ADMOB_BANNER_UNIT_ID`
-
-If the secrets are not configured, the APK uses Google's official test ad IDs.
+Do not submit this exact test-ad APK as the final production monetized release.
 
 ## English version description
 
-Added a lightweight banner ad using Google AdMob. The main debt ledger features remain unchanged.
+Improved AdMob banner loading so the app can still open if ads fail on older devices. This build uses test ads for preview.
 
 ## Arabic version description
 
-تمت إضافة إعلان بنر خفيف باستخدام Google AdMob مع بقاء وظائف دفتر الديون كما هي.
+تم تحسين تحميل إعلان البنر بحيث يفتح التطبيق حتى لو فشل الإعلان على الأجهزة القديمة. هذه النسخة تستخدم إعلانات اختبارية للمعاينة.
 
 ## Privacy note
 

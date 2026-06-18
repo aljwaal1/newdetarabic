@@ -48,12 +48,12 @@ Future<void> appFeedback(String fileName) async {
   }
 }
 
-void main() async { WidgetsFlutterBinding.ensureInitialized(); await MobileAds.instance.initialize(); await Store.I.load(); runApp(const DebtApp()); }
+void main() async { WidgetsFlutterBinding.ensureInitialized(); await Store.I.load(); runApp(const DebtApp()); }
 
 class DebtApp extends StatelessWidget{ const DebtApp({super.key}); @override Widget build(BuildContext context)=>MaterialApp(debugShowCheckedModeBanner:false,title:'دفتر الديون',theme:ThemeData(useMaterial3:true,scaffoldBackgroundColor:darkBg,colorScheme:ColorScheme.fromSeed(seedColor:orangeSoft,brightness:Brightness.dark)),home:const Directionality(textDirection:TextDirection.rtl,child:HomeScreen())); }
 
 class AdMobBanner extends StatefulWidget{ const AdMobBanner({super.key}); @override State<AdMobBanner> createState()=>_AdMobBannerState(); }
-class _AdMobBannerState extends State<AdMobBanner>{ BannerAd? ad; bool loaded=false; @override void initState(){ super.initState(); ad=BannerAd(adUnitId:admobBannerUnitId,size:AdSize.banner,request:const AdRequest(),listener:BannerAdListener(onAdLoaded:(_){if(mounted)setState(()=>loaded=true);},onAdFailedToLoad:(ad,error){ad.dispose();})); ad!.load(); } @override void dispose(){ ad?.dispose(); super.dispose(); } @override Widget build(BuildContext context){ if(!loaded||ad==null)return const SizedBox(height:0); return Container(color:darkBg,alignment:Alignment.center,width:double.infinity,height:ad!.size.height.toDouble(),child:SizedBox(width:ad!.size.width.toDouble(),height:ad!.size.height.toDouble(),child:AdWidget(ad:ad!))); }}
+class _AdMobBannerState extends State<AdMobBanner>{ BannerAd? ad; bool loaded=false; @override void initState(){ super.initState(); WidgetsBinding.instance.addPostFrameCallback((_)=>loadAd()); } Future<void> loadAd() async{ try{ await MobileAds.instance.initialize(); final banner=BannerAd(adUnitId:admobBannerUnitId,size:AdSize.banner,request:const AdRequest(),listener:BannerAdListener(onAdLoaded:(_){if(mounted)setState(()=>loaded=true);},onAdFailedToLoad:(failedAd,error){failedAd.dispose(); if(mounted)setState(()=>loaded=false);})); ad=banner; await banner.load(); }catch(_){ ad?.dispose(); ad=null; if(mounted)setState(()=>loaded=false); } } @override void dispose(){ ad?.dispose(); super.dispose(); } @override Widget build(BuildContext context){ if(!loaded||ad==null)return const SizedBox(height:0); return Container(color:darkBg,alignment:Alignment.center,width:double.infinity,height:ad!.size.height.toDouble(),child:SizedBox(width:ad!.size.width.toDouble(),height:ad!.size.height.toDouble(),child:AdWidget(ad:ad!))); }}
 
 enum DebtType { lent, borrowed }
 
