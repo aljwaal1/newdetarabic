@@ -1,17 +1,19 @@
-# دفتر الديون - fix13 real admob top
+# دفتر الديون - fix14 real admob compat
 
 تطبيق Flutter عربي يعمل أوفلاين لتسجيل الديون بين الأشخاص.
 
-## ما الجديد في fix13
+## ما الجديد في fix14
 
 - إضافة إعلان Banner حقيقي من Google AdMob في أعلى الصفحات.
 - استخدام App ID و Banner Unit ID الحقيقيين.
 - تحميل الإعلان بعد ظهور الواجهة حتى لا يتأخر فتح التطبيق.
 - إخفاء مساحة الإعلان إذا فشل التحميل.
-- رفع minSdk إلى 23 حسب متطلبات Google Mobile Ads.
-- تحديث رقم النسخة إلى `1.0.13+14`.
+- استخدام Flutter 3.24.5 بدل آخر stable لتجنب تعارضات Gradle/SDK.
+- استخدام إصدار AdMob أقدم وأكثر توافقًا.
+- الرجوع إلى minSdk 21.
+- تحديث رقم النسخة إلى `1.0.14+15`.
 - تحديث اسم Artifact في GitHub Actions إلى:
-  `debt-pal-arabic-v1-fix13-real-admob-top-apk`
+  `debt-pal-arabic-v1-fix14-real-admob-compat-apk`
 
 ## ملاحظة مهمة
 
@@ -25,4 +27,4 @@
 
 سيتم إنشاء APK داخل Artifact باسم:
 
-`debt-pal-arabic-v1-fix13-real-admob-top-apk`
+`debt-pal-arabic-v1-fix14-real-admob-compat-apk`

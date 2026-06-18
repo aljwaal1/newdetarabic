@@ -2,7 +2,7 @@
 
 ## Version
 
-1.0.13+14
+1.0.14+15
 
 ## Store declaration
 
@@ -13,7 +13,7 @@
 
 ## Current build mode
 
-This build includes a real Google AdMob banner at the top of the main screens.
+This build includes a real Google AdMob banner at the top of the main screens and uses a compatibility-focused Flutter/AdMob setup.
 
 Declare ads in the store listing before submitting this build.
 
