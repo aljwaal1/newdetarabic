@@ -2,7 +2,7 @@
 
 ## Version
 
-1.0.15+16
+1.0.16+17
 
 ## Store declaration
 
@@ -13,17 +13,17 @@
 
 ## Current build mode
 
-This build includes a real Google AdMob banner at the top of the main screens and uses a compatibility-focused Flutter/AdMob setup.
+This release includes a real Google AdMob banner at the top of the main screens. If no ad is available, the ad area is hidden.
 
 Declare ads in the store listing before submitting this build.
 
 ## English version description
 
-Added a real Google AdMob banner to the top of the main screens.
+Added a real Google AdMob banner to the top of the main screens. The ad area is hidden when no ad is available.
 
 ## Arabic version description
 
-تمت إضافة إعلان بنر حقيقي من Google AdMob أعلى الصفحات الرئيسية.
+تمت إضافة إعلان بنر حقيقي من Google AdMob أعلى الصفحات الرئيسية، ويتم إخفاء مساحة الإعلان إذا لم يتوفر إعلان.
 
 ## Privacy note
 

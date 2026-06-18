@@ -49,59 +49,7 @@ void main() async { WidgetsFlutterBinding.ensureInitialized(); await Store.I.loa
 class DebtApp extends StatelessWidget{ const DebtApp({super.key}); @override Widget build(BuildContext context)=>MaterialApp(debugShowCheckedModeBanner:false,title:'دفتر الديون',theme:ThemeData(useMaterial3:true,scaffoldBackgroundColor:darkBg,colorScheme:ColorScheme.fromSeed(seedColor:orangeSoft,brightness:Brightness.dark)),home:const Directionality(textDirection:TextDirection.rtl,child:HomeScreen())); }
 
 class AdMobBanner extends StatefulWidget{ const AdMobBanner({super.key}); @override State<AdMobBanner> createState()=>_AdMobBannerState(); }
-class _AdMobBannerState extends State<AdMobBanner>{
-  BannerAd? ad;
-  String status='loading';
-  String message='جاري تحميل الإعلان...';
-  @override void initState(){ super.initState(); WidgetsBinding.instance.addPostFrameCallback((_)=>loadAd()); }
-  Future<void> loadAd() async{
-    try{
-      setState((){ status='loading'; message='جاري تحميل الإعلان...'; });
-      await MobileAds.instance.initialize();
-      final banner=BannerAd(
-        adUnitId:admobBannerUnitId,
-        size:AdSize.banner,
-        request:const AdRequest(),
-        listener:BannerAdListener(
-          onAdLoaded:(_){ if(mounted)setState(()=>status='loaded'); },
-          onAdFailedToLoad:(failedAd,error){
-            failedAd.dispose();
-            if(mounted){
-              setState((){
-                status='failed';
-                message='تعذر تحميل الإعلان الآن';
-              });
-            }
-          },
-        ),
-      );
-      ad=banner;
-      await banner.load();
-    }catch(_){
-      ad?.dispose(); ad=null;
-      if(mounted){ setState((){ status='failed'; message='تعذر تشغيل خدمة الإعلان على هذا الجهاز'; }); }
-    }
-  }
-  @override void dispose(){ ad?.dispose(); super.dispose(); }
-  @override Widget build(BuildContext context){
-    if(status=='loaded' && ad!=null){
-      return Container(
-        height:ad!.size.height.toDouble(),
-        width:double.infinity,
-        alignment:Alignment.center,
-        margin:const EdgeInsets.fromLTRB(14,8,14,8),
-        child:SizedBox(width:ad!.size.width.toDouble(),height:ad!.size.height.toDouble(),child:AdWidget(ad:ad!)),
-      );
-    }
-    return Container(
-      height:52,
-      margin:const EdgeInsets.fromLTRB(14,8,14,8),
-      alignment:Alignment.center,
-      decoration:BoxDecoration(color:darkPanel2,borderRadius:BorderRadius.circular(14),border:Border.all(color:divider)),
-      child:Text(message,style:TextStyle(color:status=='failed'?redSoft:textSoft,fontWeight:FontWeight.w900,fontSize:13)),
-    );
-  }
-}
+class _AdMobBannerState extends State<AdMobBanner>{ BannerAd? ad; bool loaded=false; @override void initState(){ super.initState(); WidgetsBinding.instance.addPostFrameCallback((_)=>loadAd()); } Future<void> loadAd() async{ try{ await MobileAds.instance.initialize(); final banner=BannerAd(adUnitId:admobBannerUnitId,size:AdSize.banner,request:const AdRequest(),listener:BannerAdListener(onAdLoaded:(_){if(mounted)setState(()=>loaded=true);},onAdFailedToLoad:(failedAd,error){failedAd.dispose(); if(mounted)setState(()=>loaded=false);})); ad=banner; await banner.load(); }catch(_){ ad?.dispose(); ad=null; if(mounted)setState(()=>loaded=false); } } @override void dispose(){ ad?.dispose(); super.dispose(); } @override Widget build(BuildContext context){ if(!loaded||ad==null)return const SizedBox.shrink(); return Container(height:ad!.size.height.toDouble(),width:double.infinity,alignment:Alignment.center,margin:const EdgeInsets.fromLTRB(14,8,14,8),child:SizedBox(width:ad!.size.width.toDouble(),height:ad!.size.height.toDouble(),child:AdWidget(ad:ad!))); }}
 
 enum DebtType { lent, borrowed }
 
