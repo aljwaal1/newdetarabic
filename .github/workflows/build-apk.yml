@@ -55,5 +55,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: debt-pal-arabic-v1-fix11-ad-preview-no-sdk-apk
+          name: debt-pal-arabic-v1-fix12-ad-preview-top-apk
           path: build/app/outputs/flutter-apk/app-release.apk
