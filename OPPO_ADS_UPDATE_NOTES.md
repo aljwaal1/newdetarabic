@@ -2,7 +2,7 @@
 
 ## Version
 
-1.0.11+12
+1.0.12+13
 
 ## Store declaration
 
@@ -19,11 +19,11 @@ Do not submit this exact preview APK as the final production monetized release.
 
 ## English version description
 
-Added a banner placeholder for visual preview. This build does not include the AdMob SDK.
+Moved the banner placeholder to the top of the main screens for visual preview. This build does not include the AdMob SDK.
 
 ## Arabic version description
 
-تمت إضافة مساحة بنر شكلية للمعاينة. هذه النسخة لا تحتوي على AdMob SDK.
+تم نقل مساحة البنر الشكلية إلى أعلى الصفحات للمعاينة. هذه النسخة لا تحتوي على AdMob SDK.
 
 ## Privacy note
 
