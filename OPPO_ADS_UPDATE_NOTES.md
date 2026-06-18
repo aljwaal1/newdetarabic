@@ -2,7 +2,7 @@
 
 ## Version
 
-1.0.9+10
+1.0.10+11
 
 ## Store declaration
 
@@ -19,11 +19,11 @@ Do not submit this exact test-ad APK as the final production monetized release.
 
 ## English version description
 
-Improved AdMob banner loading so the app can still open if ads fail on older devices. This build uses test ads for preview and sets Android minSdk to API 23.
+Added a Google AdMob test banner for preview. This build uses test ads and sets Android minSdk to API 23.
 
 ## Arabic version description
 
-تم تحسين تحميل إعلان البنر بحيث يفتح التطبيق حتى لو فشل الإعلان على الأجهزة القديمة. هذه النسخة تستخدم إعلانات اختبارية للمعاينة وتضبط الحد الأدنى لأندرويد على API 23.
+تمت إضافة إعلان بنر اختباري من Google AdMob للمعاينة. هذه النسخة تستخدم إعلانات اختبارية وتضبط الحد الأدنى لأندرويد على API 23.
 
 ## Privacy note
 

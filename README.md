@@ -1,17 +1,17 @@
-# دفتر الديون - fix9 safe test ads
+# دفتر الديون - fix10 safe test ads
 
 تطبيق Flutter عربي يعمل أوفلاين لتسجيل الديون بين الأشخاص.
 
-## ما الجديد في fix9
+## ما الجديد في fix10
 
 - تشغيل التطبيق أولًا ثم محاولة تحميل الإعلان بعد ظهور الواجهة.
 - إخفاء مساحة الإعلان تلقائيًا إذا فشل AdMob على جهاز قديم أو جهاز Huawei بدون خدمات Google كاملة.
 - استخدام إعلانات Google الاختبارية فقط لمعاينة شكل الإعلان.
-- استخدام نسخة AdMob تبني بشكل صحيح مع Gradle الحالي في GitHub Actions.
+- استخدام نسخة AdMob حديثة تبني بشكل صحيح مع Gradle الحالي في GitHub Actions.
 - رفع الحد الأدنى لأندرويد إلى API 23 حسب متطلبات Google Mobile Ads الحديثة.
-- تحديث رقم النسخة إلى `1.0.9+10`.
+- تحديث رقم النسخة إلى `1.0.10+11`.
 - تحديث اسم Artifact في GitHub Actions إلى:
-  `debt-pal-arabic-v1-fix9-safe-test-ads-apk`
+  `debt-pal-arabic-v1-fix10-safe-test-ads-apk`
 
 ## ملاحظة مهمة
 
@@ -27,4 +27,4 @@
 
 سيتم إنشاء APK داخل Artifact باسم:
 
-`debt-pal-arabic-v1-fix9-safe-test-ads-apk`
+`debt-pal-arabic-v1-fix10-safe-test-ads-apk`
