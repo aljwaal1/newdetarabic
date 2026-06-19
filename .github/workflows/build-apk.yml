@@ -25,10 +25,12 @@ jobs:
           flutter-version: "3.24.5"
           channel: stable
 
-      - name: Create Android project files
-        run: flutter create --platforms android --org com.example .
+      - name: Recreate Android project with fixed package
+        run: |
+          rm -rf android
+          flutter create --platforms android --org com.example --project-name debt_pal_arabic_v1 .
 
-      - name: Set package name and minimum SDK
+      - name: Force package name and minimum SDK
         run: |
           if [ -f android/app/build.gradle ]; then
             sed -i 's/applicationId ".*"/applicationId "com.example.debt_pal_arabic_v1"/g' android/app/build.gradle
@@ -43,6 +45,8 @@ jobs:
             sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 21/g' android/app/build.gradle.kts
             sed -i 's/minSdk = [0-9][0-9]*/minSdk = 21/g' android/app/build.gradle.kts
           fi
+
+          grep -R "applicationId\\|namespace" android/app || true
 
       - name: Write Android Manifest
         run: |
@@ -96,10 +100,10 @@ jobs:
       - name: Prepare direct APK
         run: |
           mkdir -p apk
-          cp build/app/outputs/flutter-apk/app-release.apk apk/debt-pal-arabic-v1-fix16-real-admob-release.apk
+          cp build/app/outputs/flutter-apk/app-release.apk apk/debt-pal-arabic-v1-fix17-package-fixed.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: debt-pal-arabic-v1-fix16-real-admob-release-apk
-          path: apk/debt-pal-arabic-v1-fix16-real-admob-release.apk
+          name: debt-pal-arabic-v1-fix17-package-fixed-apk
+          path: apk/debt-pal-arabic-v1-fix17-package-fixed.apk
