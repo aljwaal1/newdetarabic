@@ -37,17 +37,33 @@ jobs:
       - name: Configure Android project
         run: |
           if [ -f android/app/build.gradle ]; then
-            sed -i 's/applicationId ".*"/applicationId "com.explapp.debt_ledger_ar"/g' android/app/build.gradle
-            sed -i 's/namespace ".*"/namespace "com.explapp.debt_ledger_ar"/g' android/app/build.gradle
-            sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 23/g' android/app/build.gradle
-            sed -i 's/minSdkVersion [0-9][0-9]*/minSdkVersion 23/g' android/app/build.gradle
+            python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('android/app/build.gradle')
+          s = p.read_text()
+          s = re.sub(r'applicationId\s*(=\s*)?"[^"]*"', 'applicationId = "com.explapp.debt_ledger_ar"', s)
+          s = re.sub(r'namespace\s*(=\s*)?"[^"]*"', 'namespace = "com.explapp.debt_ledger_ar"', s)
+          s = re.sub(r'minSdk\s*=\s*flutter\.minSdkVersion', 'minSdk = 23', s)
+          s = re.sub(r'minSdk\s*=\s*\d+', 'minSdk = 23', s)
+          s = re.sub(r'minSdkVersion\s+flutter\.minSdkVersion', 'minSdkVersion 23', s)
+          s = re.sub(r'minSdkVersion\s+\d+', 'minSdkVersion 23', s)
+          p.write_text(s)
+          PY
           fi
 
           if [ -f android/app/build.gradle.kts ]; then
-            sed -i 's/applicationId = ".*"/applicationId = "com.explapp.debt_ledger_ar"/g' android/app/build.gradle.kts
-            sed -i 's/namespace = ".*"/namespace = "com.explapp.debt_ledger_ar"/g' android/app/build.gradle.kts
-            sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 23/g' android/app/build.gradle.kts
-            sed -i 's/minSdk = [0-9][0-9]*/minSdk = 23/g' android/app/build.gradle.kts
+            python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('android/app/build.gradle.kts')
+          s = p.read_text()
+          s = re.sub(r'applicationId\s*=\s*"[^"]*"', 'applicationId = "com.explapp.debt_ledger_ar"', s)
+          s = re.sub(r'namespace\s*=\s*"[^"]*"', 'namespace = "com.explapp.debt_ledger_ar"', s)
+          s = re.sub(r'minSdk\s*=\s*flutter\.minSdkVersion', 'minSdk = 23', s)
+          s = re.sub(r'minSdk\s*=\s*\d+', 'minSdk = 23', s)
+          p.write_text(s)
+          PY
           fi
 
       - name: Install ImageMagick
@@ -136,18 +152,22 @@ jobs:
           if [ -f android/app/build.gradle ]; then
             python3 - <<'PY'
           from pathlib import Path
-          p=Path('android/app/build.gradle')
-          s=p.read_text()
-          signing_props = """def keystoreProperties = new Properties()
+          import re
+          p = Path('android/app/build.gradle')
+          s = p.read_text()
+
+          insert = """def keystoreProperties = new Properties()
           def keystorePropertiesFile = rootProject.file('key.properties')
           if (keystorePropertiesFile.exists()) {
               keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
           }
 
           """
+
           plugin_start = s.find("plugins {")
           if plugin_start == -1:
               raise SystemExit("plugins block not found")
+
           depth = 0
           plugin_end = None
           for i in range(plugin_start, len(s)):
@@ -158,11 +178,31 @@ jobs:
                   if depth == 0:
                       plugin_end = i + 1
                       break
+
           if plugin_end is None:
               raise SystemExit("plugins block end not found")
-          s = s[:plugin_end] + "\n\n" + signing_props + s[plugin_end:].lstrip()
-          s=s.replace("buildTypes {\n        release {", "signingConfigs {\n        release {\n            keyAlias keystoreProperties['keyAlias']\n            keyPassword keystoreProperties['keyPassword']\n            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null\n            storePassword keystoreProperties['storePassword']\n        }\n    }\n\n    buildTypes {\n        release {", 1)
-          s=s.replace("signingConfig signingConfigs.debug", "signingConfig signingConfigs.release")
+
+          s = s[:plugin_end] + "\n\n" + insert + s[plugin_end:].lstrip()
+
+          s = re.sub(
+              r'android\s*\{',
+              """android {
+              signingConfigs {
+                  release {
+                      keyAlias keystoreProperties['keyAlias']
+                      keyPassword keystoreProperties['keyPassword']
+                      storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+                      storePassword keystoreProperties['storePassword']
+                  }
+              }
+          """,
+              s,
+              count=1
+          )
+
+          s = s.replace("signingConfig signingConfigs.debug", "signingConfig signingConfigs.release")
+          s = s.replace("signingConfig = signingConfigs.debug", "signingConfig = signingConfigs.release")
+
           p.write_text(s)
           PY
           fi
@@ -170,11 +210,44 @@ jobs:
           if [ -f android/app/build.gradle.kts ]; then
             python3 - <<'PY'
           from pathlib import Path
-          p=Path('android/app/build.gradle.kts')
-          s=p.read_text()
-          s=s.replace("plugins {", "import java.util.Properties\nimport java.io.FileInputStream\n\nval keystoreProperties = Properties()\nval keystorePropertiesFile = rootProject.file(\"key.properties\")\nif (keystorePropertiesFile.exists()) {\n    keystoreProperties.load(FileInputStream(keystorePropertiesFile))\n}\n\nplugins {", 1)
-          s=s.replace("buildTypes {\n        release {", "signingConfigs {\n        create(\"release\") {\n            keyAlias = keystoreProperties[\"keyAlias\"] as String\n            keyPassword = keystoreProperties[\"keyPassword\"] as String\n            storeFile = file(keystoreProperties[\"storeFile\"] as String)\n            storePassword = keystoreProperties[\"storePassword\"] as String\n        }\n    }\n\n    buildTypes {\n        release {", 1)
-          s=s.replace("signingConfig = signingConfigs.getByName(\"debug\")", "signingConfig = signingConfigs.getByName(\"release\")")
+          p = Path('android/app/build.gradle.kts')
+          s = p.read_text()
+
+          s = s.replace(
+              "plugins {",
+              """import java.util.Properties
+          import java.io.FileInputStream
+
+          val keystoreProperties = Properties()
+          val keystorePropertiesFile = rootProject.file("key.properties")
+          if (keystorePropertiesFile.exists()) {
+              keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+          }
+
+          plugins {""",
+              1
+          )
+
+          s = s.replace(
+              "android {",
+              """android {
+              signingConfigs {
+                  create("release") {
+                      keyAlias = keystoreProperties["keyAlias"] as String
+                      keyPassword = keystoreProperties["keyPassword"] as String
+                      storeFile = file(keystoreProperties["storeFile"] as String)
+                      storePassword = keystoreProperties["storePassword"] as String
+                  }
+              }
+          """,
+              1
+          )
+
+          s = s.replace(
+              'signingConfig = signingConfigs.getByName("debug")',
+              'signingConfig = signingConfigs.getByName("release")'
+          )
+
           p.write_text(s)
           PY
           fi
@@ -187,6 +260,16 @@ jobs:
 
       - name: Build release APK
         run: flutter build apk --release
+
+      - name: Verify release signing is not debug
+        run: |
+          unzip -p build/app/outputs/flutter-apk/app-release.apk META-INF/CERT.RSA > /tmp/apk-cert.rsa
+          keytool -printcert -file /tmp/apk-cert.rsa > /tmp/apk-cert.txt
+          cat /tmp/apk-cert.txt
+          if grep -q "CN=Android Debug" /tmp/apk-cert.txt; then
+            echo "APK is signed with Android Debug certificate. Refusing to publish."
+            exit 1
+          fi
 
       - name: Prepare direct APK
         run: |
