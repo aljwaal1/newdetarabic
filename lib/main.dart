@@ -24,7 +24,7 @@ const divider = Color(0xFF3D444E);
 String money(double v) => v == v.roundToDouble() ? v.toStringAsFixed(0) : v.toStringAsFixed(2);
 String dateOnly(int ms){ final d=DateTime.fromMillisecondsSinceEpoch(ms); String t(int n)=>n.toString().padLeft(2,'0'); return '${d.year}/${t(d.month)}/${t(d.day)}'; }
 String ago(int ms){ final diff=DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(ms)); if(diff.inMinutes<1)return 'الآن'; if(diff.inMinutes<60)return 'منذ ${diff.inMinutes} دقيقة'; if(diff.inHours<24)return 'منذ ${diff.inHours} ساعة'; if(diff.inDays<30)return 'منذ ${diff.inDays} يوم'; return dateOnly(ms); }
-const admobBannerUnitId = 'ca-app-pub-3082968903080396/5444216173';
+const admobBannerUnitId = 'ca-app-pub-3082968903080396/5279353190';
 
 Future<void> appFeedback(String fileName) async {
   if (!Store.I.sounds) return;

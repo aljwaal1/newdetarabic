@@ -1,8 +1,14 @@
-# OPPO ads update notes
+# OPPO release notes
 
 ## Version
 
-1.0.16+17
+1.0.0+1
+
+## App identity
+
+- App name: Arabic Debt Ledger
+- Package name: `com.explapp.debt_ledger_ar`
+- Signing: fixed GitHub Actions signing secrets
 
 ## Store declaration
 

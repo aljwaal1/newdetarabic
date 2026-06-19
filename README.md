@@ -1,30 +1,27 @@
-# دفتر الديون - fix16 real admob release
+# Arabic Debt Ledger
 
-تطبيق Flutter عربي يعمل أوفلاين لتسجيل الديون بين الأشخاص.
+تطبيق دفتر ديون عربي يعمل أوفلاين، مع إعلان AdMob حقيقي في أعلى الصفحات.
 
-## ما الجديد في fix16
+## New app identity
 
-- إضافة إعلان Banner حقيقي من Google AdMob في أعلى الصفحات.
-- استخدام App ID و Banner Unit ID الحقيقيين.
-- تحميل الإعلان بعد ظهور الواجهة حتى لا يتأخر فتح التطبيق.
-- إخفاء مساحة الإعلان إذا فشل التحميل أو لم يتوفر إعلان.
-- استخدام Flutter 3.24.5 بدل آخر stable لتجنب تعارضات Gradle/SDK.
-- استخدام إصدار AdMob أقدم وأكثر توافقًا.
-- الرجوع إلى minSdk 21.
-- تحديث رقم النسخة إلى `1.0.16+17`.
-- تحديث اسم Artifact في GitHub Actions إلى:
-  `debt-pal-arabic-v1-fix16-real-admob-release-apk`
+- Package name: `com.explapp.debt_ledger_ar`
+- Version: `1.0.0+1`
+- Direct APK path inside build: `apk/debt-ledger-ar-v1.apk`
+- AdMob App ID: `ca-app-pub-3082968903080396~1164014211`
+- AdMob Banner ID: `ca-app-pub-3082968903080396/5279353190`
 
-## ملاحظة مهمة
+## Important
 
-هذه نسخة إعلانات حقيقية. عند رفعها إلى OPPO يجب تفعيل خيار أن التطبيق يحتوي على إعلانات.
+This project requires fixed Android signing secrets in GitHub Actions.
 
-## البناء عبر GitHub Actions
+Read:
 
-ارفع الملفات إلى GitHub ثم شغّل workflow من:
+`SIGNING_SETUP.md`
+
+Do not publish or commit the keystore file or signing passwords.
+
+## Build
+
+Upload the project files to GitHub, add the required signing secrets, then run:
 
 `.github/workflows/build-apk.yml`
-
-سيتم إنشاء APK داخل Artifact باسم:
-
-`debt-pal-arabic-v1-fix16-real-admob-release-apk`
